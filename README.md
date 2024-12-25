@@ -14,6 +14,16 @@ Geometry3 is a personal Python library for performing 3D geometry calculations. 
 
 ## Installation
 
+### From GitHub
+
+To install the library from GitHub, use the following command:
+
+```sh
+pip install git+https://github.com/Antcating/geometry3.git
+```
+
+### Building
+
 To install the required dependencies, use Poetry:
 
 ```sh
