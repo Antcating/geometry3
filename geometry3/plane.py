@@ -70,7 +70,7 @@ def get_plane_dip(coefficients: np.ndarray, degrees: Optional[bool] = True, z_di
     """
     normal = get_plane_normal(coefficients)
     z_normal = np.array([0, 0, 1 * z_direction])
-    dip = np.arccos(np.dot(normal, z_normal))
+    dip = np.arccos(np.abs(np.dot(normal, z_normal)) / (np.linalg.norm(normal) * np.linalg.norm(z_normal)))
     if degrees:
         dip = np.degrees(dip)
     return dip
@@ -204,7 +204,10 @@ def change_coordinate_system(points: np.ndarray, origin: np.ndarray, x_axis: np.
     z_axis = np.cross(x_axis, y_axis)
     transformation_matrix = np.linalg.inv(np.vstack([x_axis, y_axis, z_axis]).T)
 
-    transformed_points = np.dot(points - origin, transformation_matrix.T)
+    transformed_points = np.zeros_like(points)
+    for i, point in enumerate(points):
+        transformed_points[i] = np.dot(point - origin, transformation_matrix.T)
+
     return transformed_points
 
 def plot_plane(ax, coefficients: np.ndarray, x_range: np.ndarray, y_range: np.ndarray, color: str = "b", alpha: float = 0.5, **kwargs):
